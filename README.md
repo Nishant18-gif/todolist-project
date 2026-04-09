@@ -35,7 +35,7 @@ git clone https://github.com/Nishant18-gif/todolist-project.git
 
 Navigate to the project directory:
 
-cd todolist-project
+cd todo-project
 
 Create and activate a virtual environment:
 
