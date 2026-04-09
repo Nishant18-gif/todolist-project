@@ -10,11 +10,19 @@ def signup(request):
     password = request.POST.get("password")
 
     if User.objects.filter(username=username).exists():
-        return JsonResponse({"error": "User already exists"})
+        return JsonResponse({
+            "status": False,
+            "code": 400,
+            "message": "User already exists"
+        })
 
     user = User.objects.create(username=username, password=password)
 
-    return JsonResponse({"message": "Signup successful"})
+    return JsonResponse({
+        "status": True,
+        "code": 200,
+        "message": "Signup successful"
+    })
 
 
 # Login API with custom token
@@ -31,11 +39,21 @@ def login(request):
             token_obj, created = UserToken.objects.get_or_create(user=user)
 
             return JsonResponse({
+                "status": True,
+                "code": 200,
                 "message": "Login successful",
                 "token": token_obj.token
             })
 
-        return JsonResponse({"error": "Invalid password"})
+        return JsonResponse({
+            "status": False,
+            "code": 401,
+            "message": "Invalid password"
+        })
 
     except User.DoesNotExist:
-        return JsonResponse({"error": "User not found"})
+        return JsonResponse({
+            "status": False,
+            "code": 404,
+            "message": "User not found"
+        })
